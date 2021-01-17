@@ -1,4 +1,4 @@
-package com.alvesjefs.zuulmerce.resources;
+package com.alvesjefs.zuulmerce.resources.exceptions;
 
 import java.time.Instant;
 
@@ -9,18 +9,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.alvesjefs.zuulmerce.resources.exceptions.StandardError;
-import com.alvesjefs.zuulmerce.services.exceptions.NameNotFoundException;
+import com.alvesjefs.zuulmerce.services.exceptions.IdNotFoundException;
 
 @ControllerAdvice
 public class ResourceHandlerException {
 
-	@ExceptionHandler(NameNotFoundException.class)
-	public ResponseEntity<StandardError> notFoundName(NameNotFoundException e, HttpServletRequest request) {
+	@ExceptionHandler(IdNotFoundException.class)
+	public ResponseEntity<StandardError> idNotFound(IdNotFoundException e, HttpServletRequest request) {
 		StandardError error = new StandardError();
-		error.setTimesTemp(Instant.now());
+		error.setTimesTamp(Instant.now());
 		error.setStatus(HttpStatus.NOT_FOUND.value());
-		error.setError("Resource Not Found!");
+		error.setError("Resource not found!");
 		error.setMessage(e.getMessage());
 		error.setPath(request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);

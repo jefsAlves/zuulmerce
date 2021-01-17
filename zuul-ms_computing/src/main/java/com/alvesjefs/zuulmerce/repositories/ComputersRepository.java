@@ -6,5 +6,5 @@ import com.alvesjefs.zuulmerce.domain.Computers;
 
 public interface ComputersRepository extends JpaRepository<Computers, Long> {
 
-	Computers findByName(String name);	
+	Computers findByName(String name);
 }
