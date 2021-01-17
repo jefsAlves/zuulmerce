@@ -7,6 +7,7 @@ import com.alvesjefs.zuulmerce.domain.Computers;
 public class ComputersDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private Long id;
 	private String name;
 	private String description;
 	private String brand;
@@ -17,7 +18,9 @@ public class ComputersDTO implements Serializable {
 	public ComputersDTO() {
 	}
 
-	public ComputersDTO(String name, String description, String brand, String model, Integer quantity, Double price) {
+	public ComputersDTO(Long id, String name, String description, String brand, String model, Integer quantity,
+			Double price) {
+		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.brand = brand;
@@ -27,12 +30,21 @@ public class ComputersDTO implements Serializable {
 	}
 
 	public ComputersDTO(Computers computers) {
+		id = computers.getId();
 		name = computers.getName();
 		description = computers.getDescription();
 		brand = computers.getBrand();
 		model = computers.getModel();
 		quantity = computers.getQuantity();
 		price = computers.getPrice();
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getName() {

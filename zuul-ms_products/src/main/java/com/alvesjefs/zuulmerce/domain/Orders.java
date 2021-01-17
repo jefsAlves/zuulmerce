@@ -15,6 +15,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.alvesjefs.zuulmerce.enums.OrderStatus;
+
 @Entity
 @Table(name = "TB_ORDERS")
 public class Orders implements Serializable {
@@ -24,6 +26,7 @@ public class Orders implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Instant moment;
+	private OrderStatus orderStatus;
 	private Integer orderNumber;
 
 	@ManyToMany
@@ -36,9 +39,10 @@ public class Orders implements Serializable {
 	public Orders() {
 	}
 
-	public Orders(Long id, Instant moment, Integer orderNumber) {
+	public Orders(Long id, Instant moment, OrderStatus orderStatus, Integer orderNumber) {
 		this.id = id;
 		this.moment = moment;
+		this.orderStatus = orderStatus;
 		this.orderNumber = orderNumber;
 	}
 
@@ -56,6 +60,14 @@ public class Orders implements Serializable {
 
 	public void setMoment(Instant moment) {
 		this.moment = moment;
+	}
+	
+	public OrderStatus getOrderStatus() {
+		return orderStatus;
+	}
+	
+	public void setOrderStatus(OrderStatus orderStatus) {
+		this.orderStatus = orderStatus;
 	}
 
 	public Integer getOrderNumber() {
