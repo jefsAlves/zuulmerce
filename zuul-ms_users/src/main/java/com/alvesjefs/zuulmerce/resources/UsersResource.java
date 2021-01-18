@@ -30,6 +30,12 @@ public class UsersResource {
 		return ResponseEntity.ok().body(findId);
 	}
 
+	@GetMapping(value = "/searchEmail")
+	public ResponseEntity<Users> findByEmail(@RequestParam String email) {
+		Users findEmail = usersService.findByEmail(email);
+		return ResponseEntity.ok().body(findEmail);
+	}
+
 	@GetMapping(value = "/searchName")
 	public ResponseEntity<Users> findByName(@RequestParam String name) {
 		Users findName = usersService.findByName(name);

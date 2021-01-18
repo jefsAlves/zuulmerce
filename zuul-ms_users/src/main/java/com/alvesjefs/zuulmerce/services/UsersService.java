@@ -15,6 +15,7 @@ import com.alvesjefs.zuulmerce.dto.RolesDTO;
 import com.alvesjefs.zuulmerce.dto.UsersDTO;
 import com.alvesjefs.zuulmerce.repositories.RolesRepository;
 import com.alvesjefs.zuulmerce.repositories.UsersRepository;
+import com.alvesjefs.zuulmerce.services.exceptions.EmailNotFoundException;
 import com.alvesjefs.zuulmerce.services.exceptions.IdNotFoundException;
 import com.alvesjefs.zuulmerce.services.exceptions.NameNotFoundException;
 
@@ -31,6 +32,15 @@ public class UsersService {
 	public Users findById(Long id) {
 		Optional<Users> findId = usersRepository.findById(id);
 		return findId.orElseThrow(() -> new IdNotFoundException("Id not found!"));
+	}
+
+	public Users findByEmail(String email) {
+		Users findEmail = usersRepository.findByEmail(email);
+		if (findEmail == null) {
+			throw new EmailNotFoundException("Email not found!");
+		}
+
+		return findEmail;
 	}
 
 	@Transactional(readOnly = true)
@@ -51,7 +61,8 @@ public class UsersService {
 
 	@Transactional
 	public UsersDTO insertClient(UsersDTO usersDTO) {
-		Users users = new Users(null, usersDTO.getName(), usersDTO.getEmail(), usersDTO.getPassword(), usersDTO.getCpf());
+		Users users = new Users(null, usersDTO.getName(), usersDTO.getEmail(), usersDTO.getPassword(),
+				usersDTO.getCpf());
 		for (RolesDTO rolesDTO : usersDTO.getRoles()) {
 			Roles roles = rolesRepository.getOne(rolesDTO.getId());
 			users.getRoles().add(roles);

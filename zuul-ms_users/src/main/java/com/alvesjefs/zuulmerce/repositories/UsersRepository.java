@@ -7,4 +7,6 @@ import com.alvesjefs.zuulmerce.domain.Users;
 public interface UsersRepository extends JpaRepository<Users, Long> {
 
 	Users findByName(String name);
+
+	Users findByEmail(String email);
 }

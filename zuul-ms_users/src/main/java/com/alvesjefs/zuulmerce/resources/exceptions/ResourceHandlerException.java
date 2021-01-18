@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.alvesjefs.zuulmerce.services.exceptions.EmailNotFoundException;
 import com.alvesjefs.zuulmerce.services.exceptions.IdNotFoundException;
 import com.alvesjefs.zuulmerce.services.exceptions.NameNotFoundException;
 
@@ -28,6 +29,17 @@ public class ResourceHandlerException {
 
 	@ExceptionHandler(NameNotFoundException.class)
 	public ResponseEntity<StandardError> nameNotFound(NameNotFoundException e, HttpServletRequest request) {
+		StandardError error = new StandardError();
+		error.setTimestamp(Instant.now());
+		error.setStatus(HttpStatus.NOT_FOUND.value());
+		error.setError("Resource not found!");
+		error.setMessage(e.getMessage());
+		error.setPath(request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+	}
+
+	@ExceptionHandler(EmailNotFoundException.class)
+	public ResponseEntity<StandardError> emailNotFound(EmailNotFoundException e, HttpServletRequest request) {
 		StandardError error = new StandardError();
 		error.setTimestamp(Instant.now());
 		error.setStatus(HttpStatus.NOT_FOUND.value());
