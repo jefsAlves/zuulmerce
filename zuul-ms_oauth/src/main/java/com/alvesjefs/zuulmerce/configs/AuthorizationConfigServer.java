@@ -1,6 +1,7 @@
 package com.alvesjefs.zuulmerce.configs;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,7 +16,13 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationConfigServer extends AuthorizationServerConfigurerAdapter {
-
+	
+	@Value("${oauth.client.id}")
+	private String jwtClient;
+	
+	@Value("${oauth.client.secret}")
+	private String jwtPassword;
+	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -36,8 +43,8 @@ public class AuthorizationConfigServer extends AuthorizationServerConfigurerAdap
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 		clients.inMemory()
-		.withClient("MYAPP123")
-		.secret(bCryptPasswordEncoder.encode("MYPASS123"))
+		.withClient(jwtClient)
+		.secret(bCryptPasswordEncoder.encode(jwtPassword))
 		.authorizedGrantTypes("password")
 		.scopes("read", "write")
 		.accessTokenValiditySeconds(86400);
